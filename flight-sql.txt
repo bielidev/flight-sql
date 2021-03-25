@@ -1,0 +1,20 @@
+//Exercici 1
+select count(*) as total from usairports
+
+//Exercici 2
+select Origin, AVG(ArrDelay) as prom_arribades, AVG(DepDelay) as prom_sortides from flights GROUP BY Origin
+
+//Exercici 3
+select Origin, colYear, colMonth, AVG(ArrDelay) as prom_arribades from flights GROUP BY colMonth, colYear, Origin ORDER BY Origin, colYear, colMonth
+
+//Exercici 4
+select A.City, F.colYear, F.colMonth, AVG(F.ArrDelay) as prom_arribades from flights as F, usairports as A WHERE F.Origin = A.IATA  GROUP BY F.colMonth, F.colYear, F.Origin ORDER BY F.Origin, F.colYear, F.colMonth
+
+//Exercici 5
+SELECT F.UniqueCarrier, F.colYear, F.colMonth, count(F.Cancelled) as total_cancelled FROM flights as F, carriers as C where F.Cancelled != 0 && F.UniqueCarrier = C.CarrierCode group by F.UniqueCarrier, F.colYear, F.colMonth order by total_cancelled desc
+
+//Exercici 6
+select TailNum, SUM(Distance) as totalDistance from flights where TailNum is not null group by TailNum order by totalDistance desc limit 10
+
+//Exercici 7
+select delays.UniqueCarrier, delays.avgDelay from (select UniqueCarrier, AVG(ArrDelay) as avgDelay from flights group by UniqueCarrier) as delays where delays.avgDelay > 10 order by delays.avgDelay desc
